@@ -5,6 +5,7 @@ import { compose } from 'redux';
 import { Redirect } from 'react-router-dom';
 import * as actions from '../actions';
 import CustomInput from './CustomInput';
+import { Link } from 'react-router-dom'
 
 class SignUp extends Component {
   constructor(props) {
@@ -75,8 +76,10 @@ class SignUp extends Component {
             <button type="submit" className="btn btn-primary">Sign Up</button>
           </form>
           <hr />
-          <p>Already have an account? <a href="/signin">signin</a></p>
-          <p>Or go <a href="/">home</a>.</p>
+          {/* <p>Already have an account? <a href="/signin">signin</a></p>
+          <p>Or go <a href="/">home</a>.</p> */}
+          <p>Already have an account? <Link to="/signin">Sign In</Link></p>
+          <p>Or go <Link to="/">Home</Link>.</p>
         </div>
       </div>);
   }

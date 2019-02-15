@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import GoogleLogin from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
-
+import { Link } from 'react-router-dom'
 import * as actions from '../actions';
 import CustomInput from './CustomInput';
 
@@ -150,8 +150,8 @@ class SignIn extends Component {
             className="btn btn-outline-danger"
           />
           <br />
-          <p>Need an account? <a href="/signup">Signup</a></p>
-          <p>Or go <a href="/">home</a>.</p>
+          <p>Need an account? <Link to="/signup">Sign Up</Link></p>
+          <p>Or go <Link to="/">Home</Link>.</p>
 
         </div>
       </div>
