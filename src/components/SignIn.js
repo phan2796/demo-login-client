@@ -55,18 +55,17 @@ class SignIn extends Component {
     return (
       <div className="container">
         <div className="col-sm-6 col-sm-offset-3">
-          <h1><span className="fa fa-sign-in" /> SignIn</h1>
+          <h1><span className="fa fa-sign-in" /> Sign In</h1>
           {this.props.SIerrorMessage &&
             <div className="alert alert-danger">{this.props.SIerrorMessage}</div>
           }
-          {/* <div className="col">
           <form onSubmit={handleSubmit(this.onSubmit)}>
             <fieldset>
               <Field
                 name="email"
                 type="text"
                 id="email"
-                label="Enter your email"
+                label="Your email"
                 placeholder="example@example.com"
                 component={CustomInput} />
             </fieldset>
@@ -75,71 +74,23 @@ class SignIn extends Component {
                 name="password"
                 type="password"
                 id="password"
-                label="Enter your password"
-                placeholder="yoursuperpassword"
+                label="Password"
+                placeholder=""
                 component={CustomInput} />
             </fieldset>
-
-            {this.props.errorMessage ?
-              <div className="alert alert-danger">
-                {this.props.errorMessage}
-              </div> : null}
-
-            <button type="submit" className="btn btn-primary">Sign Up</button>
+            <button type="submit" className="btn btn-primary">Submit</button>
           </form>
-        </div>
-        <div className="col">
-          <div className="text-center">
-            <div className="alert alert-primary">
-              Or sign up using third-party services
-            </div>
-            <FacebookLogin
-              appId="374745003307529"
-              textButton="Facebook"
-              fields="name,email,picture"
-              callback={this.responseFacebook}
-              cssClass="btn btn-outline-primary"
-            />
-            <GoogleLogin
-              clientId="91674211488-58dfdofts394fq998i9091s9dgg142ut.apps.googleusercontent.com"
-              buttonText="Google"
-              onSuccess={this.responseGoogle}
-              onFailure={this.responseGoogle}
-              className="btn btn-outline-danger"
-            />
+          <div className="cert-line">
+            <span className="cert-line-text">
+              Or coutinue with
+                          </span>
           </div>
-        </div> */}
-
-          {/* <a href="/login" className="btn btn-default"><span className="fa fa-user" /> Local Login</a>
-            <a href="/signup" className="btn btn-default"><span className="fa fa-user" /> Local Signup</a> */}
-          <form onSubmit={handleSubmit(this.onSubmit)}>
-            <fieldset>
-              <Field
-                name="email"
-                type="text"
-                id="email"
-                label="Enter your email"
-                placeholder="example@example.com"
-                component={CustomInput} />
-            </fieldset>
-            <fieldset>
-              <Field
-                name="password"
-                type="password"
-                id="password"
-                label="Enter your password"
-                placeholder="yoursuperpassword"
-                component={CustomInput} />
-            </fieldset>
-            <button type="submit" className="btn btn-primary">Sign In</button>
-          </form>
-          <br />
           <FacebookLogin
             appId="374745003307529"
             textButton="Facebook"
             fields="name,email,picture"
             callback={this.responseFacebook}
-            cssClass="btn btn-outline-primary"
+            cssClass="btn btn-primary"
           />
           &nbsp; &nbsp; &nbsp;
             <GoogleLogin
@@ -147,7 +98,7 @@ class SignIn extends Component {
             buttonText="Google"
             onSuccess={this.responseGoogle}
             onFailure={this.responseGoogle}
-            className="btn btn-outline-danger"
+            className="btn btn-danger"
           />
           <br />
           <p>Need an account? <Link to="/signup">Sign Up</Link></p>

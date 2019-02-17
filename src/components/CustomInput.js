@@ -14,6 +14,7 @@ export default class CustomInput extends Component {
           type={ this.props.type }
           value={ value }
           onChange={ onChange }
+          required = {this.props.required}
         />
       </div>
     );

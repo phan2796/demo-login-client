@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { AUTH_SIGN_UP, AUTH_SIGN_OUT, AUTH_SIGN_IN, AUTH_SIGN_UP_ERROR, AUTH_SIGN_IN_ERROR,  } from './types';
-const domain = "https://mysterious-brook-63941.herokuapp.com"
-// const domain = "http://localhost:5000"
+import { AUTH_SIGN_UP, AUTH_SIGN_OUT, AUTH_SIGN_IN, AUTH_SIGN_UP_ERROR, AUTH_SIGN_IN_ERROR, } from './types';
+// const domain = "https://mysterious-brook-63941.herokuapp.com"
+const domain = "http://localhost:5000"
 /*
   ActionCreators -> create/return Actions ({ }) -> dispatched -> middlewares -> reducers
 */
@@ -46,19 +46,25 @@ export const signUp = data => {
     try {
       console.log('[ActionCreator] signUp called!')
       const res = await axios.post(`${domain}/users/signup`, data);
-
       console.log('[ActionCreator] signUp dispatched an action!')
-      dispatch({
-        type: AUTH_SIGN_UP,
-        payload: "Sign up success!!!"
-      });
+      console.log("res: ", res)
+      if (res.data.ok) {
+        dispatch({
+          type: AUTH_SIGN_UP,
+          payload: "Sign Up successful!!!"
+        });
+      } else {
+        dispatch({
+          type: AUTH_SIGN_UP_ERROR,
+          payload: res.data.error
+        })
+      }
+
 
       // localStorage.setItem('JWT_TOKEN', res.data.token);
     } catch (err) {
-      dispatch({
-        type: AUTH_SIGN_UP_ERROR,
-        payload: 'Something wrong!!!'
-      })
+      console.log(err)
+
     }
   };
 }

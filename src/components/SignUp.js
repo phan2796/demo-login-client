@@ -6,11 +6,18 @@ import { Redirect } from 'react-router-dom';
 import * as actions from '../actions';
 import CustomInput from './CustomInput';
 import { Link } from 'react-router-dom'
+import { passwordPolicy } from '../utils/common'
 
 class SignUp extends Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
+
+    this.state = {
+      ppFlag: false,
+      errorMsg: '',
+      scMsg: '',
+    }
   }
   componentWillMount() {
     const tokenData = localStorage.getItem("JWT_TOKEN");
@@ -23,16 +30,30 @@ class SignUp extends Component {
   async onSubmit(formData) {
     console.log('onSubmit() got called');
     console.log('formData', formData);
-    // We need to call some actioncreator
-    await this.props.signUp(formData);
-    // if (!this.props.errorMessage) {
-    //   console.log("this.props.errorMessage", this.props.errorMessage)
-    //   this.props.history.push('/dashboard');
-    // }
-    console.log(this.props)
+    if (formData.password !== formData.cfPassword) {
+      this.setState({
+        errorMsg: "Password and confirm password does not match"
+      })
+    } else {
+      await this.props.signUp(formData);
+      this.setState({
+        errorMsg: this.props.SUerrorMessage,
+        scMsg: this.props.SUsuccessMessage
+      })
+      console.log("SUerrorMessage: ", this.props.SUerrorMessage)
+      console.log("SUsuccessMessag: ", this.props.SUsuccessMessage)
+    }
+  }
+  togglePolicy = () => {
+    this.setState({
+      ppFlag: !this.state.ppFlag,
+    })
   }
 
+
   render() {
+    const { ppFlag, errorMsg, scMsg } = this.state
+    console.log(this.state)
     const { handleSubmit } = this.props;
     // const tokenData = localStorage.getItem("JWT_TOKEN");
     // if (tokenData) {
@@ -42,26 +63,22 @@ class SignUp extends Component {
     return (
       <div className="container">
         <div className="col-sm-6 col-sm-offset-3">
-          <h1><span className="fa fa-sign-in" /> Signup</h1>
-          {this.props.SUerrorMessage &&
-            <div className="alert alert-danger">{this.props.SUerrorMessage}</div>
+          <h1><span className="fa fa-sign-in" /> Sign Up</h1>
+          {errorMsg &&
+            <div className="alert alert-danger">{errorMsg}</div>
           }
-          {this.props.successMessage &&
-            <div className="alert alert-success">{this.props.successMessage}</div>
+          {scMsg &&
+            <div className="alert alert-success">{scMsg}</div>
           }
-          {/* show any messages that come back with authentication */}
-          {/* &lt;% if (message.length &gt; 0) {'{'} %&gt;
-        <div className="alert alert-danger">&lt;%= message %&gt;</div>
-          &lt;% {'}'} %&gt; */}
-          {/* LOGIN FORM */}
           <form onSubmit={handleSubmit(this.onSubmit)}>
             <fieldset>
               <Field
                 name="email"
-                type="text"
+                type="email"
                 id="email"
-                label="Enter your email"
+                label="Your email"
                 placeholder="example@example.com"
+                required={true}
                 component={CustomInput} />
             </fieldset>
             <fieldset>
@@ -69,10 +86,32 @@ class SignUp extends Component {
                 name="password"
                 type="password"
                 id="password"
-                label="Enter your password"
-                placeholder="yoursuperpassword"
+                label="Enter Password"
+                required={true}
+                placeholder=""
                 component={CustomInput} />
             </fieldset>
+            <fieldset>
+              <Field
+                name="cfPassword"
+                type="password"
+                id="password"
+                label="Confirm Password"
+                required={true}
+                placeholder=""
+                component={CustomInput} />
+            </fieldset>
+            <div>
+              <label className="hover-i" onClick={this.togglePolicy} style={{ fontSize: '14px' }}>Password policy
+              </label>
+              {ppFlag && <ul>
+                <li>Be at least eight characters in length</li>
+                <li>Contain uppercase characters (A through Z)</li>
+                <li>Contain lowercase characters (a through z)</li>
+                <li>Contain base 10 digits (0 through 9)</li>
+              </ul>}
+
+            </div>
             <button type="submit" className="btn btn-primary">Sign Up</button>
           </form>
           <hr />
@@ -88,7 +127,7 @@ class SignUp extends Component {
 function mapStateToProps(state) {
   return {
     SUerrorMessage: state.auth.SUerrorMessage,
-    successMessage: state.auth.successMessage
+    SUsuccessMessage: state.auth.SUsuccessMessage
 
   }
 }
