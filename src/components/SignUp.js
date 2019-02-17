@@ -7,6 +7,7 @@ import * as actions from '../actions';
 import CustomInput from './CustomInput';
 import { Link } from 'react-router-dom'
 import { passwordPolicy } from '../utils/common'
+import { reset } from 'redux-form';
 
 class SignUp extends Component {
   constructor(props) {
@@ -27,7 +28,8 @@ class SignUp extends Component {
     }
   }
 
-  async onSubmit(formData) {
+  onSubmit = async (formData, dispatch) => {
+    // const { reset } = this.props;
     console.log('onSubmit() got called');
     console.log('formData', formData);
     if (formData.password !== formData.cfPassword) {
@@ -42,6 +44,10 @@ class SignUp extends Component {
       })
       console.log("SUerrorMessage: ", this.props.SUerrorMessage)
       console.log("SUsuccessMessag: ", this.props.SUsuccessMessage)
+      if (this.props.SUsuccessMessage) {
+        // reset();
+        dispatch(reset('signup'))
+      }
     }
   }
   togglePolicy = () => {

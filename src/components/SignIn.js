@@ -14,6 +14,9 @@ class SignIn extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.responseGoogle = this.responseGoogle.bind(this);
     this.responseFacebook = this.responseFacebook.bind(this);
+    this.state = {
+      errorMsg: '',
+    }
   }
   componentWillMount() {
     const tokenData = localStorage.getItem("JWT_TOKEN");
@@ -28,6 +31,9 @@ class SignIn extends Component {
     // We need to call some actioncreator
     await this.props.signIn(formData);
     console.log("this.props.SIerrorMessage: ", this.props.SIerrorMessage)
+    this.setState({
+      errorMsg: this.props.SIerrorMessage
+    })
     if (!this.props.SIerrorMessage) {
       this.props.history.push('/dashboard');
     }
@@ -52,20 +58,22 @@ class SignIn extends Component {
 
   render() {
     const { handleSubmit } = this.props;
+    const { errorMsg } = this.state;
     return (
       <div className="container">
         <div className="col-sm-6 col-sm-offset-3">
           <h1><span className="fa fa-sign-in" /> Sign In</h1>
-          {this.props.SIerrorMessage &&
-            <div className="alert alert-danger">{this.props.SIerrorMessage}</div>
+          {errorMsg &&
+            <div className="alert alert-danger">{errorMsg}</div>
           }
           <form onSubmit={handleSubmit(this.onSubmit)}>
             <fieldset>
               <Field
                 name="email"
-                type="text"
+                type="email"
                 id="email"
                 label="Your email"
+                required={true}
                 placeholder="example@example.com"
                 component={CustomInput} />
             </fieldset>
@@ -73,6 +81,7 @@ class SignIn extends Component {
               <Field
                 name="password"
                 type="password"
+                required={true}
                 id="password"
                 label="Password"
                 placeholder=""
@@ -100,6 +109,7 @@ class SignIn extends Component {
             onFailure={this.responseGoogle}
             className="btn btn-danger"
           />
+          <br />
           <br />
           <p>Need an account? <Link to="/signup">Sign Up</Link></p>
           <p>Or go <Link to="/">Home</Link>.</p>
